@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin-deployment
+  namespace: kustomize
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: pgadmin
+        image: dpage/pgadmin4
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PGADMIN_DEFAULT_EMAIL
+            valueFrom:
+              configMapKeyRef:
+                name: my-configmap-pgadmin
+                key: email
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret-pgadmin
+                key: pgadminpwd

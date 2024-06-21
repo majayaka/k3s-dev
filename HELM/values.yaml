@@ -1,0 +1,44 @@
+nameSpace : helm
+postgresName: postgresql
+fastapiName: fastapi-deployment
+pgadminName: pgadmin
+
+configmap:
+  name: my-configmap
+  data:
+    value: "config"
+    email: "admin@admin.com"
+
+secret:
+  name: my-secret
+  type: Opaque
+  data:
+    pgadminpwd: cm9vdA==
+    user: YWRtaW4=
+    db: c3RvcmVkYg==
+    pwd: cGFzc3dvcmQ=
+    
+
+imageFastApi:
+  name: ayakayu/myapp
+  tag: v2
+
+imagePostgres:
+  name: postgres
+  tag: 12.0-alpine
+
+imagePgadmin:
+  name: dpage/pgadmin4
+
+hpa:
+  name: hpa
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+
+ingress:
+  enabled: false
+  
+service:
+  type: ClusterIP  # Can be ClusterIP, NodePort, or LoadBalancer
+  port: 80  # Ensure this is defined if your NOTES.txt references .Values.service.port

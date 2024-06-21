@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
+data:
+  value: {{ .Values.configmap.data.value | quote }}
+  email: {{ .Values.configmap.data.email | quote }}
+  user: {{ .Values.secret.data.user | b64enc | quote }}
+  db: {{ .Values.secret.data.db | b64enc | quote }}
+  pwd: {{ .Values.secret.data.pwd | b64enc | quote }}
